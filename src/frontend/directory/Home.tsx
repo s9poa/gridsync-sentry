@@ -1,10 +1,11 @@
-
+import styles from '../css/directory-css/Home.module.scss';
 
 function Home () {
+
     return (
-        <div>
-        </div>
-    )
+        <main className={`${styles.main} wrapper`}>
+        </main>
+    );
 }
 
 export default Home;

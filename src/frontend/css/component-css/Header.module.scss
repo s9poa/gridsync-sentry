@@ -52,13 +52,11 @@
     .searchForm {
         --bg-clr: var(--dk-transparent-surface);
         margin-left: auto;
-        height: 80%;
+        height: 100%;
         display: flex;
         align-items: center;
         max-width: 20rem;
         width: 100%;
-        border-radius: 5px;
-        margin-right: 1rem;
 
         label {
             height: 0px;
@@ -68,16 +66,13 @@
             user-select: none;
             pointer-events: none;
         }
-
         input {
             height: 100%;
             background: var(--bg-clr);
-            border-radius: 5px 0 0 5px;
             flex-grow: 1;
             padding: 0 .5rem;
             font-size: .875rem;
-            &:hover, &:active, &:focus {
-                background: var(--dk-transparent-surface-hover);
+            &:hover, &:active, &:focus-visible {
                 outline: none;
             }
             &::placeholder {
@@ -91,9 +86,8 @@
             height: 100%;
             aspect-ratio: 1/1;
             background: var(--bg-clr);
-            border-radius: 0 5px 5px 0;
 
-            &:hover, &:active, &:focus {
+            &:hover, &:active, &:focus-visible {
                 background: var(--dk-transparent-surface-hover);
             }
         }
@@ -102,13 +96,13 @@
     .mobileMenuBtn {
         height: 100%;
         aspect-ratio: 1/1;
-        background: var(--dk-transparent-surface);
+        
         transition: background .175s ease-in-out;
         display: none;
         margin-left: auto;
 
         &:hover, &:active, &:focus-visible {
-            background: var(--dk-transparent-surface-hover);
+            background: var(--dk-transparent-surface);
         }
     }
 }

@@ -14,8 +14,7 @@
     --lt-transparent-surface: hsla(245, 16%, 20%, .75);
 
     --dk-transparent-surface-hover: hsla(270, 10%, 16%, .75);
-
-    --dk-hover: hsla(245, 16%, 24%, .75);
+    --lt-transparent-surface-hover: hsla(245, 16%, 24%, .75);
 
     --default-txt-clr: #fff;
 }
