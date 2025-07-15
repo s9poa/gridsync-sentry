@@ -1,0 +1,129 @@
+.header {
+    --base-height: 3rem;
+    --link-font-size: 1.25rem;
+    background: var(--dk-surface);
+    height: var(--base-height);
+
+    .wrapper {
+        display: flex;
+        align-items: center;
+        height: 100%;
+    }
+
+    .logo {
+        font-family: var(--special-font-family);
+        font-size: var(--link-font-size);
+        font-weight: 600;
+        padding: 0 1rem;
+        transition: background .175s ease-in-out;
+        height: 100%;
+        align-content: center;
+        min-width: max-content;
+
+        span {
+            font-family: inherit;
+            color: goldenrod;
+        }
+
+        &:hover, &:active, &:focus-visible {
+            background: var(--dk-transparent-surface);
+        }
+    }
+
+    .primaryNav {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        border-left: 1px solid var(--dk-transparent-surface);
+
+        a {
+            transition: background .175s ease-in-out;
+            height: 100%;
+            align-content: center;
+            padding: 0 1rem;
+            font-family: var(--special-font-family);
+
+            &:hover, &:active, &:focus-visible {
+                background: var(--dk-transparent-surface);
+            }
+        }
+    }
+
+    .searchForm {
+        --bg-clr: var(--dk-transparent-surface);
+        margin-left: auto;
+        height: 80%;
+        display: flex;
+        align-items: center;
+        max-width: 20rem;
+        width: 100%;
+        border-radius: 5px;
+        margin-right: 1rem;
+
+        label {
+            height: 0px;
+            width: 0px;
+            overflow: hidden;
+            position: absolute;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        input {
+            height: 100%;
+            background: var(--bg-clr);
+            border-radius: 5px 0 0 5px;
+            flex-grow: 1;
+            padding: 0 .5rem;
+            font-size: .875rem;
+            &:hover, &:active, &:focus {
+                background: var(--dk-transparent-surface-hover);
+                outline: none;
+            }
+            &::placeholder {
+                color: hsl(0, 0%, 50%);
+            }
+            &:focus::placeholder {
+                color: hsl(0, 0%, 80%);
+            }
+        }
+        button {
+            height: 100%;
+            aspect-ratio: 1/1;
+            background: var(--bg-clr);
+            border-radius: 0 5px 5px 0;
+
+            &:hover, &:active, &:focus {
+                background: var(--dk-transparent-surface-hover);
+            }
+        }
+    }
+
+    .mobileMenuBtn {
+        height: 100%;
+        aspect-ratio: 1/1;
+        background: var(--dk-transparent-surface);
+        transition: background .175s ease-in-out;
+        display: none;
+        margin-left: auto;
+
+        &:hover, &:active, &:focus-visible {
+            background: var(--dk-transparent-surface-hover);
+        }
+    }
+}
+
+@media (max-width: 720px) {
+    .header .mobileMenuBtn {
+        display: block;
+    }
+    .header .searchForm {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .header .primaryNav {
+        display: none;
+    }
+}
