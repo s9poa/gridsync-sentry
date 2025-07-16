@@ -7,7 +7,9 @@
     --special-font-family: "Figtree", sans-serif;
 
     --body-bg: hsl(245, 16%, 16%);
+
     --dk-surface: hsl(270, 10%, 8%);
+    --lt-surface: hsla(244, 16%, 40%);
 
     --dk-transparent-surface: hsla(270, 10%, 12%, .75);
     --lt-transparent-surface: hsla(245, 16%, 20%, .75);

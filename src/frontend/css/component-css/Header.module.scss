@@ -3,6 +3,10 @@
     --link-font-size: 1.25rem;
     background: var(--dk-surface);
     height: var(--base-height);
+    min-height: var(--base-height);
+    position: sticky;
+    top: 0;
+    z-index: 9999;
 
     .wrapper {
         display: flex;

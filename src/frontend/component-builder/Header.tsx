@@ -35,7 +35,7 @@ function Header () {
                     <input type="text" id="desktop-search-field" placeholder="What game are you searching for?" required />
                     <button aria-label="Search"><i className="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
                 </form>
-                <button ref={triggerBtnRef} className={styles.mobileMenuBtn} onClick={() => setIsMobileMenuOpen(true)}>
+                <button ref={triggerBtnRef} className={styles.mobileMenuBtn} aria-label="Search button" onClick={() => setIsMobileMenuOpen(true)}>
                     <i className="fa-solid fa-bars" aria-hidden="true"></i>
                 </button>
                 <MobileMenu isOpen={isMobileMenuOpen} onClose={() => {setIsMobileMenuOpen(false);if (isKeyboardUserRef.current && triggerBtnRef.current) {triggerBtnRef.current.focus();}}}/>

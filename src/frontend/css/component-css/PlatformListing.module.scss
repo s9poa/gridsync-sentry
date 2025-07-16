@@ -55,5 +55,8 @@
     .genre-selector-nav a {
         width: 100%;
     }
+    .genre-selector-nav a.active {
+        background: var(--lt-surface);
+    }
 }
 
