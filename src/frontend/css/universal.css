@@ -9,7 +9,6 @@
     --body-bg: hsl(245, 16%, 16%);
     --dk-surface: hsl(270, 10%, 8%);
 
-
     --dk-transparent-surface: hsla(270, 10%, 12%, .75);
     --lt-transparent-surface: hsla(245, 16%, 20%, .75);
 
@@ -17,6 +16,8 @@
     --lt-transparent-surface-hover: hsla(245, 16%, 24%, .75);
 
     --default-txt-clr: #fff;
+
+    --default-border-clr: hsl(0, 0%, 25%);
 }
 
 *::before, *::after {
