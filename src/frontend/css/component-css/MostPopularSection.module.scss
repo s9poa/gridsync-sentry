@@ -59,14 +59,20 @@
     }
     .carousel {
         display: flex;
-        overflow: hidden;
+        
 
         .slider {
-            display: grid;
-            grid-template-columns: repeat(5,1fr);
+            display: flex;
             gap: 1rem;
             padding: 1rem;
             width: 100%;
+            overflow: auto;
         }
+    }
+}
+
+@media (max-width: 480px) {
+    .section .carouselBtnsGrouping {
+        display: none;
     }
 }
