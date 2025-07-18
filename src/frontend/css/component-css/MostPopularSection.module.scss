@@ -1,0 +1,72 @@
+.section {
+    display: flex;
+    flex-direction: column;
+    .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .sectionNav {
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+        padding: 0 1rem;
+
+        a {
+            display: flex;
+            align-items: center;
+            text-transform: uppercase;
+            gap: .5rem;
+            color: var(--gray);
+            font-size: .875rem;
+            width: fit-content;
+            span {
+                color: var(--gray);
+                font-size: .875rem;
+                font-family: var(--special-font-family);
+                &:hover, &:active, &:focus-visible {
+                    text-decoration: underline;
+                }
+            }
+        }
+        a.leadingTitle {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        i {
+            font-size: .6rem;
+            color: inherit;
+        }
+    }
+    .carouselBtnsGrouping {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0 1rem;
+
+        button {
+            max-width: 2rem;
+            min-width: 2rem;
+            height: 2rem;
+            border-radius: 100vw;
+            display: grid;
+            place-items: center;
+            background: royalblue;
+            outline: 2px solid cornflowerblue;
+            outline-offset: -4px;
+        }
+    }
+    .carousel {
+        display: flex;
+        overflow: hidden;
+
+        .slider {
+            display: grid;
+            grid-template-columns: repeat(5,1fr);
+            gap: 1rem;
+            padding: 1rem;
+            width: 100%;
+        }
+    }
+}

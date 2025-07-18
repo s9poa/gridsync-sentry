@@ -1,0 +1,41 @@
+.skeletonCard {
+    background: var(--lt-transparent-surface);
+    border-radius: 5px;
+
+    .img {
+        background: var(--lt-transparent-surface-hover);
+        width: 100%;
+        aspect-ratio: 1/1;
+        border-radius: 10px 10px 0 0;
+        position: relative;
+
+        .ranking {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            background: var(--lt-transparent-surface);
+            border-radius: 50%;
+            max-width: 3rem;
+            min-width: 3rem;
+            height: 3rem;
+            display: grid;
+            place-items: center;
+        }
+    }
+    .contentBody {
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        > div {
+            background: var(--lt-transparent-surface-hover);
+            border-radius: 100vw;
+            height: 1rem;
+            width: 100%;
+        }
+        .short {
+                width: 50%;
+        }
+    }
+}
