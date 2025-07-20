@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import styles from '../css/component-css/MostPopularSection.module.scss';
 import SkeletonCard from './SkeletonCard';
+import VerticalCard from './VerticalCard';
 
 function MostPopularSection() {
     const sliderRef = useRef<HTMLDivElement | null>(null);
@@ -61,6 +62,7 @@ function MostPopularSection() {
             </div>
             <div className={styles.carousel}>
                 <div className={styles.slider} ref={sliderRef}>
+                    <VerticalCard imgSrc="https://plus.unsplash.com/premium_photo-1672423154405-5fd922c11af2?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y29ycG9yYXRlJTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D" rankingNumber='# 1'/>
                     <SkeletonCard />
                     <SkeletonCard />
                     <SkeletonCard />
