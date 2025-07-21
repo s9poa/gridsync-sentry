@@ -2,6 +2,7 @@
     background: var(--lt-transparent-surface);
     border-radius: 5px;
     min-width: 200.9px;
+    animation: ghostEffect 2.75s linear infinite;
 
 
     .img {
@@ -39,5 +40,14 @@
         .short {
                 width: 50%;
         }
+    }
+}
+
+@keyframes ghostEffect {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .5;
     }
 }
