@@ -57,12 +57,6 @@ function MobileMenu({ isOpen, onClose }: Props) {
                 <a href="/deals" className={location.pathname === '/deals' ? styles.active : ''}>Deals</a>
                 <a href="/games" className={location.pathname === '/games' ? styles.active : ''}>Games</a>
             </nav>
-            <div className={styles.hr}></div>
-            <nav className={styles.primaryNav}>
-                <a href="/pc" className={location.pathname === '/pc' ? styles.active : ''}>PC</a>
-                <a href="/xbox" className={location.pathname === '/xbox' ? styles.active : ''}>Xbox</a>
-                <a href="/playstation" className={location.pathname === '/playstation' ? styles.active : ''}>Playstation</a>
-            </nav>
         </div>
     );
 }

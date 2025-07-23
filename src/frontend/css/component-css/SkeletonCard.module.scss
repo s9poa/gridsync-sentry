@@ -1,44 +1,60 @@
 .skeletonCard {
+    display: flex;
     background: var(--lt-transparent-surface);
-    border-radius: 5px;
-    min-width: 200.9px;
     animation: ghostEffect 2.75s linear infinite;
-
-
+    max-height: 50px;
+    min-height: 50px;
+    height: 50px;
+    border-block: 1px solid var(--lt-transparent-surface-hover);
     .img {
+        height: 100%;
+        width: 200px;
+        min-width: 200px;
         background: var(--lt-transparent-surface-hover);
-        width: 100%;
-        aspect-ratio: 1/1;
-        border-radius: 10px 10px 0 0;
-        position: relative;
-
-        .ranking {
-            position: absolute;
-            bottom: 1rem;
-            left: 1rem;
-            background: var(--lt-transparent-surface);
-            border-radius: 50%;
-            max-width: 3rem;
-            min-width: 3rem;
-            height: 3rem;
-            display: grid;
-            place-items: center;
-        }
     }
     .contentBody {
-        padding: 1rem;
         display: flex;
-        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        flex-grow: 1;
+        padding: .5rem;
         gap: 1rem;
-
-        > div {
-            background: var(--lt-transparent-surface-hover);
-            border-radius: 100vw;
-            height: 1rem;
-            width: 100%;
+        .leftEnd {
+            display: flex;
+            flex-direction: column;
+            gap: .275rem;
+            height: 100%;
+            flex-grow: 1;
+            .title {
+                width: 100%;
+                height: 100%;
+                border-radius: 100vw;
+                background: var(--lt-transparent-surface-hover);
+            }
+            .grouping {
+                display: flex;
+                align-items: center;
+                gap: .275rem;
+                height: 100%;
+                .storeImg {
+                    aspect-ratio: 1/1;
+                    height: 100%;
+                    background: var(--lt-transparent-surface-hover);
+                    border-radius: 100vw;
+                }
+                .storeName {
+                    height: 100%;
+                    width: 40%;
+                    border-radius: 100vw;
+                    background: var(--lt-transparent-surface-hover);
+                }
+            }
         }
-        .short {
-                width: 50%;
+        .rightEnd {
+            background: var(--lt-transparent-surface-hover);
+            height: 100%;
+            width: 30%;
+            border-radius: 100vw;
         }
     }
 }

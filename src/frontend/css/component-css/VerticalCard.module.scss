@@ -1,78 +1,74 @@
 .verticalCard {
+    display: flex;
+    align-items: center;
     background: var(--lt-transparent-surface);
-    border-radius: 5px;
-    min-width: 200.9px;
-
-    .imgContainer {
-        position: relative;
-
-        img {
-            background: var(--lt-transparent-surface-hover);
-            width: 100%;
-            aspect-ratio: 1/1;
-            border-radius: 10px 10px 0 0;
-            object-position: center;
-            object-fit: cover;
-        }
-        
-        .ranking {
-            position: absolute;
-            bottom: .5rem;
-            left: .5rem;
-            background: var(--dk-surface);
-            border-radius: 50%;
-            max-width: 3rem;
-            min-width: 3rem;
-            height: 3rem;
-            display: grid;
-            place-items: center;
-            font-family: var(--special-font-family);
-            font-weight: 700;
-            outline: 2px solid goldenrod;
-            outline-offset: -6px;
-        }
+    max-height: 50px;
+    min-height: 50px;
+    height: 50px;
+    &:hover,&:active, &:focus-visible {
+    background: var(--lt-transparent-surface-hover);
     }
-
+    .imgSrc {
+        height: 100%;
+        width: 200px;
+        object-fit: cover;
+        object-position: center;
+    }
     .contentBody {
         display: flex;
-        flex-direction: column;
-        gap: 2rem;
-        padding: 1rem;
-
-        .title {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            line-clamp: 2;
-            -webkit-box-orient: vertical;  
-            overflow: hidden;
-            font-size: 1rem;
-            font-weight: 500;
+        align-items: center;
+        justify-content: space-between;
+        gap: .5rem;
+        width: 100%;
+        height: 100%;
+        padding: 0 0 0 .5rem;
+        border-block: 1px solid var(--lt-transparent-surface-hover);
+        .leftEnd {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            gap: .275rem;
+            .title {
+                font-size: .875rem;
+                font-weight: 500;
+                display: -webkit-box;
+                -webkit-line-clamp: 1;
+                line-clamp: 1;
+                -webkit-box-orient: vertical;  
+                overflow: hidden;
+            }
+            img {
+                border-radius: 50%;
+            }
         }
-        .footer {
+        .rightEnd {
             display: flex;
             align-items: center;
             gap: .5rem;
+            .normalPrice {
+                text-decoration: line-through;
+                color: var(--gray);
+            }
+            .salePrice {
+                background: royalblue;
+                padding: .5rem 1rem;
+                outline: 2px solid cornflowerblue;
+                outline-offset: -4px;
+                font-family: var(--special-font-family);
+                border-radius: 100vw 0 0 100vw;
+                font-weight: 500;
+            }
         }
-        .currentPrice {
-            font-weight: 700;
-            font-size: 1.25rem;
-        }
-        .historicalLow {
-
-        }
-        .appliedDiscount, .historicalLow {
-            background: var(--dk-transparent-surface);
-            padding: .125rem .75rem;
-            border-radius: 5px;
-            font-weight: 700;
-            font-size: .875rem;
-        }
-        .historicalLow{
-            padding: .125rem .5rem;
-            background: green;
-            outline: 1px solid springgreen;
-            outline-offset: -2px;
+        .storeGrouping {
+            display: flex;
+            align-items: center;
+            gap: .275rem;
+            .storeName {
+                color: var(--gray);
+                font-weight: 600;
+                font-size: .875rem;
+            }
         }
     }
-
 }

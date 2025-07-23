@@ -1,0 +1,9 @@
+.categoryGrid {
+    --grid-min-col-size: 400px;
+    
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min-col-size), 100%), 1fr));
+    gap: 3rem;
+    margin: 3rem 0;
+    padding: 0 1rem;
+}

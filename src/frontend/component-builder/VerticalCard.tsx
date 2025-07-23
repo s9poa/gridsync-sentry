@@ -3,27 +3,33 @@ import styles from '../css/component-css/VerticalCard.module.scss';
 type VerticalCardProps = {
     linkSrc: string;
     imgSrc: string;
-    rankingNumber: string;
+    storeImage: string;
     title: string;
-    currentPrice: string;
-    appliedDiscount: string;
-    historicalLow: string;
+    salePrice: string;
+    normalPrice: string;
+    storeName: string;
 }
 
-function VerticalCard({linkSrc, imgSrc, rankingNumber, title, currentPrice, appliedDiscount, historicalLow}: VerticalCardProps) {
+function VerticalCard({linkSrc, imgSrc, storeImage, title, salePrice, normalPrice, storeName}: VerticalCardProps) {
 
     return (
-        <a href={linkSrc} className={styles.verticalCard}>
-            <div className={styles.imgContainer}>
-                <img src={imgSrc} alt="" width="200" height="200"/>
-                {rankingNumber && <span className={styles.ranking}>{rankingNumber}</span>}
-            </div>
+        <a href={linkSrc} target="_blank" className={styles.verticalCard}>
+            <img src={imgSrc} loading="lazy" className={styles.imgSrc} alt="" />
             <div className={styles.contentBody}>
-                <h3 className={styles.title}>{title}</h3>
-                <div className={styles.footer}>
-                    <span className={styles.currentPrice}>{currentPrice}</span>
-                    {historicalLow && <span className={styles.historicalLow}>{historicalLow}</span>}
-                    <span className={styles.appliedDiscount}>{appliedDiscount}</span>
+                <div className={styles.leftEnd}>
+                    <h3 className={styles.title}>{title}</h3>
+                    <div className={styles.storeGrouping}>
+                        {storeImage && <img src={storeImage} className={styles.storeImage} alt="" width="16" height="16"/>}
+                        {storeName && <span className={styles.storeName}>{storeName}</span>}
+                    </div>
+                </div>
+                <div className={styles.rightEnd}>
+                    {normalPrice && <del className={styles.normalPrice}>{normalPrice}</del>}
+                    {salePrice && (
+                    <span className={styles.salePrice}>
+                        {salePrice === "$0.00" || salePrice === "$0" ? "Free" : salePrice}
+                    </span>
+                    )}
                 </div>
             </div>
         </a>
