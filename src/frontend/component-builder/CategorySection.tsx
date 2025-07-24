@@ -5,7 +5,7 @@ import SkeletonCard from './SkeletonCard';
 import { fetchDealsByParams, fetchStoreLogos } from '../../backend/utils/cheapshark';
 import type { GameDeal } from '../../backend/utils/cheapshark';
 
-const devShowSkeletonOnly = true; // set to true to view SkeletonCard only for design
+const devShowSkeletonOnly = false; // set to true to view SkeletonCard only for design
 
 type Props = {
   leadingTitle: string;
