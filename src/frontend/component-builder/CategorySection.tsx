@@ -5,7 +5,7 @@ import SkeletonCard from './SkeletonCard';
 import { fetchDealsByParams, fetchStoreLogos } from '../../backend/utils/cheapshark';
 import type { GameDeal } from '../../backend/utils/cheapshark';
 
-const devShowSkeletonOnly = false; // change to false when you're done designing
+const devShowSkeletonOnly = true; // set to true to view SkeletonCard only for design
 
 type Props = {
   leadingTitle: string;
@@ -14,6 +14,7 @@ type Props = {
     upperPrice?: number;
     lowerPrice?: number;
   };
+  onRedirect?: (linkSrc: string, storeName: string, gameTitle: string) => void;
 };
 
 const titleToParams: Record<string, string> = {
@@ -37,39 +38,37 @@ function buildParamsFromObject(options: Props['fetchOptions']): string {
   return params.toString();
 }
 
-function CategorySection({ leadingTitle, fetchOptions }: Props) {
+function CategorySection({ leadingTitle, fetchOptions, onRedirect }: Props) {
   const [games, setGames] = useState<GameDeal[]>([]);
   const [storeLogos, setStoreLogos] = useState<Record<string, { logo: string; name: string }>>({});
   const [loading, setLoading] = useState(devShowSkeletonOnly ? true : true);
 
+  useEffect(() => {
+    if (devShowSkeletonOnly) return;
 
-useEffect(() => {
-  if (devShowSkeletonOnly) return;
+    const fetchData = async () => {
+      const fallbackParams = titleToParams[leadingTitle] || 'pageSize=10';
+      const queryParams = fetchOptions ? buildParamsFromObject(fetchOptions) : fallbackParams;
 
-  const fetchData = async () => {
-    const fallbackParams = titleToParams[leadingTitle] || 'pageSize=10';
-    const queryParams = fetchOptions ? buildParamsFromObject(fetchOptions) : fallbackParams;
+      try {
+        const [gamesData, logos] = await Promise.all([
+          fetchDealsByParams(queryParams),
+          fetchStoreLogos()
+        ]);
+        setGames(gamesData);
+        setStoreLogos(logos);
+      } catch (err) {
+        console.error(`Failed to load deals for "${leadingTitle}":`, err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    try {
-      const [gamesData, logos] = await Promise.all([
-        fetchDealsByParams(queryParams),
-        fetchStoreLogos()
-      ]);
-      setGames(gamesData);
-      setStoreLogos(logos);
-    } catch (err) {
-      console.error(`Failed to load deals for "${leadingTitle}":`, err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchData();
-}, [leadingTitle, fetchOptions]);
-
+    fetchData();
+  }, [leadingTitle, fetchOptions]);
 
   return (
-    <section className={`${styles.section}`}>
+    <section className={styles.section}>
       <div className={styles.row}>
         <nav className={styles.sectionNav}>
           <h2 className={styles.leadingTitle}>{leadingTitle}</h2>
@@ -82,16 +81,22 @@ useEffect(() => {
         {loading
           ? Array.from({ length: 10 }).map((_, i) => <SkeletonCard key={i} />)
           : games.map((game) => (
-            <VerticalCard
-              key={game.dealID}
-              linkSrc={`https://www.cheapshark.com/redirect?dealID=${game.dealID}`}
-              imgSrc={game.thumb}
-              storeImage={storeLogos[game.storeID]?.logo || ''}
-              storeName={storeLogos[game.storeID]?.name || ''}
-              title={game.title}
-              salePrice={`$${game.salePrice}`}
-              normalPrice={`$${game.normalPrice}`}
-            />
+              <VerticalCard
+                key={game.dealID}
+                imgSrc={game.thumb}
+                storeImage={storeLogos[game.storeID]?.logo || ''}
+                storeName={storeLogos[game.storeID]?.name || ''}
+                title={game.title}
+                salePrice={`$${game.salePrice}`}
+                normalPrice={`$${game.normalPrice}`}
+                onClick={() =>
+                  onRedirect?.(
+                    `https://www.cheapshark.com/redirect?dealID=${game.dealID}`,
+                    storeLogos[game.storeID]?.name || 'Unknown Store',
+                    game.title
+                  )
+                }
+              />
             ))}
       </div>
     </section>

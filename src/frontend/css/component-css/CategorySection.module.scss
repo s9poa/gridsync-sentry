@@ -45,3 +45,20 @@
         gap: .5rem 1rem;
     }
 }
+
+@media (max-width: 480px) {
+    .section {
+        overflow: hidden;
+    }
+    .section .row {
+        padding: 0 1rem;
+    }
+    .section .grid {
+        display: flex;
+        overflow: auto;
+        padding: 0 1rem;
+    }
+    .section .grid > * {
+        min-width: 90%;
+    }
+}
