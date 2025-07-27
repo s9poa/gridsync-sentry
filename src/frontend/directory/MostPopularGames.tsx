@@ -23,7 +23,6 @@ function MostPopularSection() {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [modalData, setModalData] = useState<{ title: string; store: string; link: string } | null>(null);
-  const [showViewMore, setShowViewMore] = useState(true);
   const [isCooldown, setIsCooldown] = useState(false);
 
   const isCacheExpired = (timestamp: number) => {
@@ -32,7 +31,6 @@ function MostPopularSection() {
     return minutesPassed > CACHE_EXPIRATION_MINUTES;
   };
 
-  // Load from sessionStorage
   useEffect(() => {
     if (devShowSkeletonOnly) return;
 
@@ -46,7 +44,7 @@ function MostPopularSection() {
       }
     }
 
-    // If no cache or expired, fetch initial page
+    // No cache or expired
     setLoading(true);
     fetchDealsByParams(`sortBy=Deal Rating&pageSize=10&pageNumber=0`)
       .then((initialGames) => {
@@ -60,7 +58,6 @@ function MostPopularSection() {
       .finally(() => setLoading(false));
   }, []);
 
-  // Fetch store logos once
   useEffect(() => {
     fetchStoreLogos().then(setStoreLogos).catch((err) => console.error('Logo fetch error:', err));
   }, []);
@@ -74,7 +71,6 @@ function MostPopularSection() {
 
     const nextPage = page + 1;
     setIsCooldown(true);
-    setShowViewMore(false);
     setLoading(true);
 
     try {
@@ -94,13 +90,12 @@ function MostPopularSection() {
     } finally {
       setLoading(false);
       setTimeout(() => {
-        setShowViewMore(true);
         setIsCooldown(false);
       }, COOLDOWN_DELAY);
     }
   };
 
-  const canViewMore = !devShowSkeletonOnly && showViewMore && page + 1 < MAX_PAGES;
+  const canViewMore = !devShowSkeletonOnly && page + 1 < MAX_PAGES;
   const hasReachedMax = !devShowSkeletonOnly && page + 1 >= MAX_PAGES;
 
   return (

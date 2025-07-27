@@ -15,6 +15,7 @@ type Props = {
     sortBy?: string;
     upperPrice?: number;
     lowerPrice?: number;
+    pageNumber?: number;
   };
   onRedirect?: (linkSrc: string, storeName: string, gameTitle: string) => void;
 };
@@ -25,6 +26,7 @@ function buildParamsFromObject(options: Props['fetchOptions']): string {
   if (options.sortBy) params.set('sortBy', options.sortBy);
   if (options.upperPrice !== undefined) params.set('upperPrice', options.upperPrice.toString());
   if (options.lowerPrice !== undefined) params.set('lowerPrice', options.lowerPrice.toString());
+  if (options.pageNumber !== undefined) params.set('pageNumber', options.pageNumber.toString());
   params.set('pageSize', '10');
   return params.toString();
 }
