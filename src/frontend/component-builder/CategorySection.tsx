@@ -5,27 +5,18 @@ import SkeletonCard from './SkeletonCard';
 import { fetchDealsByParams, fetchStoreLogos } from '../../backend/utils/cheapshark';
 import type { GameDeal } from '../../backend/utils/cheapshark';
 
-const devShowSkeletonOnly = false; // set to true to view SkeletonCard only for design
+const devShowSkeletonOnly = false;
+const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
 
 type Props = {
   leadingTitle: string;
+  viewMoreSrc: string;
   fetchOptions?: {
     sortBy?: string;
     upperPrice?: number;
     lowerPrice?: number;
   };
   onRedirect?: (linkSrc: string, storeName: string, gameTitle: string) => void;
-};
-
-const titleToParams: Record<string, string> = {
-  'Most Popular Games': 'sortBy=Deal Rating&pageSize=10',
-  "Insane Deals You Shouldn't Miss": 'sortBy=Savings&upperPrice=30&pageSize=10',
-  'New Price Drops': 'sortBy=Recent&pageSize=10',
-  'Under $10 Steals': 'upperPrice=10&sortBy=Price&pageSize=10',
-  'Trending Right Now': 'sortBy=Title&pageSize=10',
-  'Top Picks from the Community': 'sortBy=Reviews&pageSize=10',
-  'Massive Discounts This Week': 'sortBy=Savings&lowerPrice=5&pageSize=10',
-  'Bangers Worth Every Penny': 'sortBy=Deal Rating&lowerPrice=10&upperPrice=30&pageSize=10'
 };
 
 function buildParamsFromObject(options: Props['fetchOptions']): string {
@@ -38,7 +29,23 @@ function buildParamsFromObject(options: Props['fetchOptions']): string {
   return params.toString();
 }
 
-function CategorySection({ leadingTitle, fetchOptions, onRedirect }: Props) {
+function getCachedData(key: string): { timestamp: number; games: GameDeal[] } | null {
+  const cached = sessionStorage.getItem(key);
+  if (!cached) return null;
+  try {
+    const parsed = JSON.parse(cached);
+    if (Date.now() - parsed.timestamp < CACHE_DURATION) {
+      return parsed;
+    } else {
+      sessionStorage.removeItem(key);
+    }
+  } catch {
+    sessionStorage.removeItem(key);
+  }
+  return null;
+}
+
+function CategorySection({ leadingTitle, viewMoreSrc, fetchOptions, onRedirect }: Props) {
   const [games, setGames] = useState<GameDeal[]>([]);
   const [storeLogos, setStoreLogos] = useState<Record<string, { logo: string; name: string }>>({});
   const [loading, setLoading] = useState(devShowSkeletonOnly ? true : true);
@@ -47,8 +54,18 @@ function CategorySection({ leadingTitle, fetchOptions, onRedirect }: Props) {
     if (devShowSkeletonOnly) return;
 
     const fetchData = async () => {
-      const fallbackParams = titleToParams[leadingTitle] || 'pageSize=10';
-      const queryParams = fetchOptions ? buildParamsFromObject(fetchOptions) : fallbackParams;
+      const cacheKey = `category_${leadingTitle.replace(/\s+/g, '_').toLowerCase()}`;
+      const cached = getCachedData(cacheKey);
+
+      if (cached) {
+        setGames(cached.games);
+        const logos = await fetchStoreLogos();
+        setStoreLogos(logos);
+        setLoading(false);
+        return;
+      }
+
+      const queryParams = fetchOptions ? buildParamsFromObject(fetchOptions) : 'pageSize=10';
 
       try {
         const [gamesData, logos] = await Promise.all([
@@ -57,6 +74,7 @@ function CategorySection({ leadingTitle, fetchOptions, onRedirect }: Props) {
         ]);
         setGames(gamesData);
         setStoreLogos(logos);
+        sessionStorage.setItem(cacheKey, JSON.stringify({ timestamp: Date.now(), games: gamesData }));
       } catch (err) {
         console.error(`Failed to load deals for "${leadingTitle}":`, err);
       } finally {
@@ -72,7 +90,7 @@ function CategorySection({ leadingTitle, fetchOptions, onRedirect }: Props) {
       <div className={styles.row}>
         <nav className={styles.sectionNav}>
           <h2 className={styles.leadingTitle}>{leadingTitle}</h2>
-          <a href="/games" className={styles.seeAll}>
+          <a href={viewMoreSrc} className={styles.seeAll}>
             <span>View more</span> <i className="fa-solid fa-caret-right" aria-hidden="true"></i>
           </a>
         </nav>

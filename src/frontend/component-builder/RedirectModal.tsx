@@ -11,7 +11,6 @@ type RedirectModalProps = {
 function RedirectModal({ linkSrc, storeName, gameTitle, onClose }: RedirectModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
-  // Close modal when clicking outside content body + disable scrolling
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
@@ -19,12 +18,10 @@ function RedirectModal({ linkSrc, storeName, gameTitle, onClose }: RedirectModal
       }
     };
 
-    // Disable scrolling when modal mounts
     document.body.style.overflow = 'hidden';
     document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      // Re-enable scrolling when modal unmounts
       document.body.style.overflow = '';
       document.removeEventListener('mousedown', handleClickOutside);
     };
