@@ -4,6 +4,7 @@ import VerticalCard from './VerticalCard';
 import SkeletonCard from './SkeletonCard';
 import { fetchDealsByParams, fetchStoreLogos } from '../../backend/utils/cheapshark';
 import type { GameDeal } from '../../backend/utils/cheapshark';
+import { Link } from 'react-router';
 
 const devShowSkeletonOnly = false;
 const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
@@ -92,9 +93,9 @@ function CategorySection({ leadingTitle, viewMoreSrc, fetchOptions, onRedirect }
       <div className={styles.row}>
         <nav className={styles.sectionNav}>
           <h2 className={styles.leadingTitle}>{leadingTitle}</h2>
-          <a href={viewMoreSrc} className={styles.seeAll}>
+          {viewMoreSrc && <Link to={viewMoreSrc} className={styles.seeAll}>
             <span>View more</span> <i className="fa-solid fa-caret-right" aria-hidden="true"></i>
-          </a>
+          </Link>}
         </nav>
       </div>
       <div className={styles.grid}>

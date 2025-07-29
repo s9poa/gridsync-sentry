@@ -36,7 +36,7 @@ function RedirectModal({ linkSrc, storeName, gameTitle, onClose }: RedirectModal
         </p>
         <div className={styles.footer}>
           <button className={styles.closeModal} onClick={onClose}>Cancel</button>
-          <a href={linkSrc} target="_blank" className={styles.confirmRedirect}>Yes, Take Me There</a>
+          <a href={linkSrc} target="_blank" rel="noopener noreferrer" className={styles.confirmRedirect}>Yes, Take Me There</a>
         </div>
       </div>
     </dialog>

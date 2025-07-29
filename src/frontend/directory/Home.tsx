@@ -25,13 +25,13 @@ function Home() {
     <main className={`${styles.main} wrapper`}>
       <div className={styles.categoryGrid}>
         <CategorySection leadingTitle="Most Popular Games" fetchOptions={{ sortBy: 'Deal Rating' }} onRedirect={openRedirectModal} viewMoreSrc="/most-popular-games" />
-        <CategorySection leadingTitle="Biggest Discounts Right Now" fetchOptions={{ sortBy: 'Savings' }} onRedirect={openRedirectModal} viewMoreSrc="" />
-        <CategorySection leadingTitle="Just Dropped Deals" fetchOptions={{ sortBy: 'Recent' }} onRedirect={openRedirectModal} viewMoreSrc="" />
-        <CategorySection leadingTitle="Under $10 Steals" fetchOptions={{ upperPrice: 10 }} onRedirect={openRedirectModal} viewMoreSrc="" />
-        <CategorySection leadingTitle="New Releases" fetchOptions={{ sortBy: 'Release' }} onRedirect={openRedirectModal} viewMoreSrc="" />
-        <CategorySection leadingTitle="A-Z Game List" fetchOptions={{ sortBy: 'Title' }} onRedirect={openRedirectModal} viewMoreSrc="" />
-        <CategorySection leadingTitle="Fan Favorites Under $20" fetchOptions={{ sortBy: 'Reviews', upperPrice: 20 }} onRedirect={openRedirectModal} viewMoreSrc="" />
-        <CategorySection leadingTitle="Lowest Prices This Week" fetchOptions={{ sortBy: 'Price', upperPrice: 20 }} onRedirect={openRedirectModal} viewMoreSrc="" />
+        <CategorySection leadingTitle="Biggest Discounts Right Now" fetchOptions={{ sortBy: 'Savings' }} onRedirect={openRedirectModal} viewMoreSrc="/biggest-discounts-right-now" />
+        <CategorySection leadingTitle="Just Dropped Deals" fetchOptions={{ sortBy: 'Recent' }} onRedirect={openRedirectModal} viewMoreSrc="/just-dropped-deals" />
+        <CategorySection leadingTitle="Under $10 Steals" fetchOptions={{ upperPrice: 10 }} onRedirect={openRedirectModal} viewMoreSrc="/under-$10-steals" />
+        <CategorySection leadingTitle="New Releases" fetchOptions={{ sortBy: 'Release' }} onRedirect={openRedirectModal} viewMoreSrc="/new-releases" />
+        <CategorySection leadingTitle="A-Z Game List" fetchOptions={{ sortBy: 'Title' }} onRedirect={openRedirectModal} viewMoreSrc="/a-z-game-list" />
+        <CategorySection leadingTitle="Fan Favorites Under $20" fetchOptions={{ sortBy: 'Reviews', upperPrice: 20 }} onRedirect={openRedirectModal} viewMoreSrc="/fan-favorites-under-$20" />
+        <CategorySection leadingTitle="Lowest Prices This Week" fetchOptions={{ sortBy: 'Price', upperPrice: 20 }} onRedirect={openRedirectModal} viewMoreSrc="/lowest-prices-this-week" />
       </div>
 
       {modalOpen && (

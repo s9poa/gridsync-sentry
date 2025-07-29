@@ -1,23 +1,26 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    margin: 3rem auto;
+    gap: 1rem;
+}
 .gameGrid {
     --grid-min-col-size: 400px;
     
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min-col-size), 100%), 1fr));
     gap: .5rem 3rem;
-    margin: 3rem 0;
     padding: 0 1rem;
 }
 
 h1 {
     padding: 0 1rem;
-    margin: 3rem 0;
     font-size: 1.5rem;
 }
 .viewMoreContainer {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 3rem 0;
     .viewMore   {
     text-decoration: underline;
     color: cornflowerblue;
