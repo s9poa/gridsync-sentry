@@ -8,7 +8,7 @@ import { fetchDealsByParams, fetchStoreLogos, type GameDeal } from '../../backen
 const devShowSkeletonOnly = false;
 const COOLDOWN_DELAY = 4000;
 const MAX_PAGES = 3;
-const CACHE_KEY = 'under10Cache';
+const CACHE_KEY = 'azGameListCache';
 const CACHE_EXPIRATION_MINUTES = 10;
 
 type CachedData = {
@@ -17,7 +17,7 @@ type CachedData = {
   timestamp: number;
 };
 
-function Under$10Steals() {
+function AZGameList() {
   const [games, setGames] = useState<GameDeal[]>([]);
   const [storeLogos, setStoreLogos] = useState<Record<string, { logo: string; name: string }>>({});
   const [loading, setLoading] = useState(false);
@@ -44,9 +44,8 @@ function Under$10Steals() {
       }
     }
 
-    // No cache or expired
     setLoading(true);
-    fetchDealsByParams(`upperPrice=10&pageSize=10&pageNumber=0`)
+    fetchDealsByParams(`sortBy=Title&pageSize=10&pageNumber=0`)
       .then((initialGames) => {
         const timestamp = Date.now();
         const cacheData: CachedData = { games: initialGames, page: 0, timestamp };
@@ -74,7 +73,7 @@ function Under$10Steals() {
     setLoading(true);
 
     try {
-      const newGames = await fetchDealsByParams(`upperPrice=10&pageSize=10&pageNumber=${nextPage}`);
+      const newGames = await fetchDealsByParams(`sortBy=Title&pageSize=10&pageNumber=${nextPage}`);
       const updatedGames = [...games, ...newGames];
       setGames(updatedGames);
       setPage(nextPage);
@@ -100,7 +99,7 @@ function Under$10Steals() {
 
   return (
     <main className={`${styles.main} wrapper`}>
-      <h1>Under $10 Steals</h1>
+      <h1>A-Z Game List</h1>
       <div className={styles.gameGrid}>
         {devShowSkeletonOnly
           ? Array.from({ length: 10 }).map((_, i) => <SkeletonCard key={`skeleton-${i}`} />)
@@ -150,4 +149,4 @@ function Under$10Steals() {
   );
 }
 
-export default Under$10Steals;
+export default AZGameList;

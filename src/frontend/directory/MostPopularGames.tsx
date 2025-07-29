@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styles from '../css/directory-css/MostPopularGames.module.scss';
+import styles from '../css/directory-css/GameCategoryPage.module.scss';
 import RedirectModal from '../component-builder/RedirectModal';
 import SkeletonCard from '../component-builder/SkeletonCard';
 import VerticalCard from '../component-builder/VerticalCard';
