@@ -15,6 +15,7 @@ import NewReleases from './frontend/directory/NewReleases';
 import AZGameList from './frontend/directory/AZGameList';
 import FanFavoritesUnder$20 from './frontend/directory/FanFavoritesUnder$20';
 import LowestPricesThisWeek from './frontend/directory/LowestPricesThisWeek';
+import SearchResults from './frontend/directory/SearchResults';
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -30,6 +31,7 @@ createRoot(document.getElementById('root')!).render(
       <Route path="/a-z-game-list" element={<AZGameList />} />
       <Route path="/fan-favorites-under-$20" element={<FanFavoritesUnder$20 />} />
       <Route path="/lowest-prices-this-week" element={<LowestPricesThisWeek />} />
+      <Route path="/search-results" element={<SearchResults />} />
     </Routes>
   </BrowserRouter>
 );

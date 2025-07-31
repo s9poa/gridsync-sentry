@@ -111,13 +111,21 @@
         }
     }
 }
-
+@media (max-width: 1100px) {
+    .header {
+        --base-height: 6rem;
+    }
+    header > .wrapper {
+        flex-direction: column;
+        padding: 0 .5rem .5rem .5rem;
+    }
+    .searchForm {
+        max-width: none !important;
+    }
+}
 @media (max-width: 720px) {
     .header .mobileMenuBtn {
         display: block;
-    }
-    .header .searchForm {
-        display: none;
     }
 }
 
