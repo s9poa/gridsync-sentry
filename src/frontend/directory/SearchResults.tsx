@@ -6,9 +6,15 @@ import SkeletonCard from '../component-builder/SkeletonCard';
 import VerticalCard from '../component-builder/VerticalCard';
 import RedirectModal from '../component-builder/RedirectModal';
 
+type Store = {
+    storeID: string;
+    storeName: string;
+};
+
 function SearchResults() {
     const location = useLocation();
     const query = new URLSearchParams(location.search).get('query') || '';
+
     const [games, setGames] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [modalOpen, setModalOpen] = useState(false);
@@ -17,8 +23,10 @@ function SearchResults() {
         storeName: '',
         gameTitle: ''
     });
+
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [storeMap, setStoreMap] = useState<Record<string, string>>({});
 
     const GAMES_PER_PAGE = 20;
     const cacheKey = `search-${query.toLowerCase()}-page-${currentPage}`;
@@ -31,6 +39,16 @@ function SearchResults() {
     const closeRedirectModal = () => {
         setModalOpen(false);
     };
+
+    useEffect(() => {
+        fetch('https://www.cheapshark.com/api/1.0/stores')
+            .then((res) => res.json())
+            .then((stores: Store[]) => {
+                const map: Record<string, string> = {};
+                stores.forEach((s) => (map[s.storeID] = s.storeName));
+                setStoreMap(map);
+            });
+    }, []);
 
     useEffect(() => {
         if (!query.trim()) return;
@@ -84,16 +102,24 @@ function SearchResults() {
                     ))
                     : games.map((game, i) => (
                         <VerticalCard
-                            key={i}
-                            imgSrc={game.thumb}
-                            storeImage={`https://www.cheapshark.com/img/stores/logos/${game.storeID}.png`}
-                            title={game.title}
-                            salePrice={`$${parseFloat(game.salePrice).toFixed(2)}`}
-                            normalPrice={`$${parseFloat(game.normalPrice).toFixed(2)}`}
-                            storeName={game.storeID}
-                            onClick={() =>
-                                openRedirectModal(game.dealID, game.storeID, game.title)
-                            }
+                        key={i}
+                        imgSrc={game.thumb}
+                        storeImage={`https://www.cheapshark.com/img/stores/logos/${game.storeID}.png`}
+                        title={game.title}
+                        salePrice={`$${parseFloat(game.salePrice).toFixed(2)}`}
+                        normalPrice={
+                            parseFloat(game.normalPrice) > parseFloat(game.salePrice)
+                            ? `$${parseFloat(game.normalPrice).toFixed(2)}`
+                            : ''
+                        }
+                        storeName={storeMap[game.storeID] || `Store #${game.storeID}`}
+                        onClick={() =>
+                            openRedirectModal(
+                            `https://www.cheapshark.com/redirect?dealID=${game.dealID}`,
+                            storeMap[game.storeID] || `Store #${game.storeID}`,
+                            game.title
+                            )
+                        }
                         />
                     ))
                 }
