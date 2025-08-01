@@ -19,6 +19,8 @@ function VerticalCard({
   storeName,
   onClick
 }: VerticalCardProps) {
+  const showNormalPrice = normalPrice !== salePrice;
+
   return (
     <button className={styles.verticalCard} onClick={onClick}>
       <img src={imgSrc} loading="lazy" className={styles.imgSrc} alt="" />
@@ -39,7 +41,7 @@ function VerticalCard({
           </div>
         </div>
         <div className={styles.rightEnd}>
-          {normalPrice && <del className={styles.normalPrice}>{normalPrice}</del>}
+          {showNormalPrice && <del className={styles.normalPrice}>{normalPrice}</del>}
           {salePrice && (
             <span className={styles.salePrice}>
               {salePrice === "$0.00" || salePrice === "$0" ? "Free" : salePrice}
