@@ -23,7 +23,7 @@ function VerticalCard({
 
   return (
     <button className={styles.verticalCard} onClick={onClick}>
-      <img src={imgSrc} loading="lazy" className={styles.imgSrc} alt="" />
+      <img src={imgSrc} className={styles.imgSrc} alt="" />
       <div className={styles.contentBody}>
         <div className={styles.leftEnd}>
           <h3 className={styles.title}>{title}</h3>
