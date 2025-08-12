@@ -12,7 +12,7 @@ const CACHE_KEY = 'azGameListCache';
 const CACHE_EXPIRATION_MINUTES = 10;
 
 type CacheShape = {
-  pages: Record<number, GameDeal[]>; // 1-based page -> items
+  pages: Record<number, GameDeal[]>;
   timestamp: number;
 };
 
@@ -29,12 +29,10 @@ function AZGameList() {
     return minutesPassed > CACHE_EXPIRATION_MINUTES;
   };
 
-  // logos once
   useEffect(() => {
     fetchStoreLogos().then(setStoreLogos).catch((err) => console.error('Logo fetch error:', err));
   }, []);
 
-  // initial load: try cache page 1, else fetch it
   useEffect(() => {
     if (devShowSkeletonOnly) return;
 
@@ -47,20 +45,21 @@ function AZGameList() {
           setCurrentPage(1);
           return;
         }
-      } catch {
-        // ignore bad cache
-      }
+      } catch {}
     }
 
     (async () => {
+      setCurrentPage(1);
       setLoading(true);
+      setPagesData((prev) => ({ ...prev, 1: [] }));
       try {
         const firstPage = await fetchDealsByParams(`sortBy=Title&pageSize=${GAMES_PER_PAGE}&pageNumber=0`);
-        const newPages = { 1: firstPage };
-        setPagesData(newPages);
-        setCurrentPage(1);
-        const toCache: CacheShape = { pages: newPages, timestamp: Date.now() };
-        sessionStorage.setItem(CACHE_KEY, JSON.stringify(toCache));
+        setPagesData((prev) => {
+          const newPages = { ...prev, 1: firstPage };
+          const toCache: CacheShape = { pages: newPages, timestamp: Date.now() };
+          sessionStorage.setItem(CACHE_KEY, JSON.stringify(toCache));
+          return newPages;
+        });
       } catch (err) {
         console.error('Initial fetch error:', err);
       } finally {
@@ -69,7 +68,6 @@ function AZGameList() {
     })();
   }, []);
 
-  // smooth scroll like SearchResults
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentPage]);
@@ -81,21 +79,24 @@ function AZGameList() {
   const goToPage = async (pageNum: number) => {
     if (pageNum < 1 || pageNum > MAX_PAGES) return;
 
-    // if cached in memory, switch instantly
     if (pagesData[pageNum]?.length) {
       setCurrentPage(pageNum);
       return;
     }
 
+    setCurrentPage(pageNum);
     setLoading(true);
+    setPagesData((prev) => ({ ...prev, [pageNum]: [] }));
+
     try {
       const apiPageIndex = pageNum - 1;
       const newPage = await fetchDealsByParams(`sortBy=Title&pageSize=${GAMES_PER_PAGE}&pageNumber=${apiPageIndex}`);
-      const updated = { ...pagesData, [pageNum]: newPage };
-      setPagesData(updated);
-      setCurrentPage(pageNum);
-      const toCache: CacheShape = { pages: updated, timestamp: Date.now() };
-      sessionStorage.setItem(CACHE_KEY, JSON.stringify(toCache));
+      setPagesData((prev) => {
+        const updated = { ...prev, [pageNum]: newPage };
+        const toCache: CacheShape = { pages: updated, timestamp: Date.now() };
+        sessionStorage.setItem(CACHE_KEY, JSON.stringify(toCache));
+        return updated;
+      });
     } catch (err) {
       console.error(`Fetch error for page ${pageNum}:`, err);
     } finally {
@@ -109,10 +110,10 @@ function AZGameList() {
     <main className={`${styles.main} wrapper`}>
       <h1>A-Z Game List</h1>
 
-      <div className={styles.gameGrid}>
+      <div className={styles.gameGrid} key={currentPage}>
         {devShowSkeletonOnly
           ? Array.from({ length: GAMES_PER_PAGE }).map((_, i) => <SkeletonCard key={`skeleton-${i}`} />)
-          : loading && !gamesForPage.length
+          : loading
           ? Array.from({ length: GAMES_PER_PAGE }).map((_, i) => <SkeletonCard key={`loading-${i}`} />)
           : gamesForPage.map((game, i) => (
               <VerticalCard

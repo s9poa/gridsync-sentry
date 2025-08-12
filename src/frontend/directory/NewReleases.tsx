@@ -45,20 +45,21 @@ function NewReleases() {
           setCurrentPage(1);
           return;
         }
-      } catch {
-        // ignore
-      }
+      } catch {}
     }
 
     (async () => {
+      setCurrentPage(1);
       setLoading(true);
+      setPagesData((prev) => ({ ...prev, 1: [] }));
       try {
         const firstPage = await fetchDealsByParams(`sortBy=Release&pageSize=${GAMES_PER_PAGE}&pageNumber=0`);
-        const newPages = { 1: firstPage };
-        setPagesData(newPages);
-        setCurrentPage(1);
-        const toCache: CacheShape = { pages: newPages, timestamp: Date.now() };
-        sessionStorage.setItem(CACHE_KEY, JSON.stringify(toCache));
+        setPagesData((prev) => {
+          const newPages = { ...prev, 1: firstPage };
+          const toCache: CacheShape = { pages: newPages, timestamp: Date.now() };
+          sessionStorage.setItem(CACHE_KEY, JSON.stringify(toCache));
+          return newPages;
+        });
       } catch (err) {
         console.error('Initial fetch error:', err);
       } finally {
@@ -83,15 +84,19 @@ function NewReleases() {
       return;
     }
 
+    setCurrentPage(pageNum);
     setLoading(true);
+    setPagesData((prev) => ({ ...prev, [pageNum]: [] }));
+
     try {
       const apiPageIndex = pageNum - 1;
       const newPage = await fetchDealsByParams(`sortBy=Release&pageSize=${GAMES_PER_PAGE}&pageNumber=${apiPageIndex}`);
-      const updated = { ...pagesData, [pageNum]: newPage };
-      setPagesData(updated);
-      setCurrentPage(pageNum);
-      const toCache: CacheShape = { pages: updated, timestamp: Date.now() };
-      sessionStorage.setItem(CACHE_KEY, JSON.stringify(toCache));
+      setPagesData((prev) => {
+        const updated = { ...prev, [pageNum]: newPage };
+        const toCache: CacheShape = { pages: updated, timestamp: Date.now() };
+        sessionStorage.setItem(CACHE_KEY, JSON.stringify(toCache));
+        return updated;
+      });
     } catch (err) {
       console.error(`Fetch error for page ${pageNum}:`, err);
     } finally {
@@ -105,10 +110,10 @@ function NewReleases() {
     <main className={`${styles.main} wrapper`}>
       <h1>New Releases</h1>
 
-      <div className={styles.gameGrid}>
+      <div className={styles.gameGrid} key={currentPage}>
         {devShowSkeletonOnly
           ? Array.from({ length: GAMES_PER_PAGE }).map((_, i) => <SkeletonCard key={`skeleton-${i}`} />)
-          : loading && !gamesForPage.length
+          : loading
           ? Array.from({ length: GAMES_PER_PAGE }).map((_, i) => <SkeletonCard key={`loading-${i}`} />)
           : gamesForPage.map((game, i) => (
               <VerticalCard
@@ -134,11 +139,7 @@ function NewReleases() {
         {Array.from({ length: MAX_PAGES }, (_, i) => {
           const page = i + 1;
           return (
-            <button
-              key={page}
-              className={currentPage === page ? styles.active : ''}
-              onClick={() => goToPage(page)}
-            >
+            <button key={page} className={currentPage === page ? styles.active : ''} onClick={() => goToPage(page)}>
               {page}
             </button>
           );

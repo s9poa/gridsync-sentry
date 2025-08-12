@@ -12,7 +12,7 @@ const CACHE_KEY = 'mostPopularCache';
 const CACHE_EXPIRATION_MINUTES = 10;
 
 type CacheShape = {
-  pages: Record<number, GameDeal[]>; // 1-based page -> items
+  pages: Record<number, GameDeal[]>;
   timestamp: number;
 };
 
@@ -29,12 +29,10 @@ function MostPopularSection() {
     return minutesPassed > CACHE_EXPIRATION_MINUTES;
   };
 
-  // load logos once
   useEffect(() => {
     fetchStoreLogos().then(setStoreLogos).catch((err) => console.error('Logo fetch error:', err));
   }, []);
 
-  // initial load: try cache page 1, otherwise fetch it
   useEffect(() => {
     if (devShowSkeletonOnly) return;
 
@@ -47,19 +45,17 @@ function MostPopularSection() {
           setCurrentPage(1);
           return;
         }
-      } catch (e) {
-        // ignore bad cache
-      }
+      } catch {}
     }
 
-    // fetch page 1 if no good cache
     (async () => {
+      setCurrentPage(1);
       setLoading(true);
+      setPagesData((prev) => ({ ...prev, 1: [] }));
       try {
         const firstPage = await fetchDealsByParams(`sortBy=Deal Rating&pageSize=${GAMES_PER_PAGE}&pageNumber=0`);
-        const newPages = { 1: firstPage };
+        const newPages = { ...pagesData, 1: firstPage };
         setPagesData(newPages);
-        setCurrentPage(1);
         const toCache: CacheShape = { pages: newPages, timestamp: Date.now() };
         sessionStorage.setItem(CACHE_KEY, JSON.stringify(toCache));
       } catch (err) {
@@ -70,7 +66,6 @@ function MostPopularSection() {
     })();
   }, []);
 
-  // smooth scroll to top on page change (match SearchResults behavior)
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [currentPage]);
@@ -81,21 +76,25 @@ function MostPopularSection() {
 
   const goToPage = async (pageNum: number) => {
     if (pageNum < 1 || pageNum > MAX_PAGES) return;
-    // if we already have this page cached in state, just switch
+
     if (pagesData[pageNum]?.length) {
       setCurrentPage(pageNum);
       return;
     }
-    // else fetch on demand
+
+    setCurrentPage(pageNum);
     setLoading(true);
+    setPagesData((prev) => ({ ...prev, [pageNum]: [] }));
+
     try {
       const apiPageIndex = pageNum - 1;
       const newPageData = await fetchDealsByParams(`sortBy=Deal Rating&pageSize=${GAMES_PER_PAGE}&pageNumber=${apiPageIndex}`);
-      const updated = { ...pagesData, [pageNum]: newPageData };
-      setPagesData(updated);
-      setCurrentPage(pageNum);
-      const toCache: CacheShape = { pages: updated, timestamp: Date.now() };
-      sessionStorage.setItem(CACHE_KEY, JSON.stringify(toCache));
+      setPagesData((prev) => {
+        const updated = { ...prev, [pageNum]: newPageData };
+        const toCache: CacheShape = { pages: updated, timestamp: Date.now() };
+        sessionStorage.setItem(CACHE_KEY, JSON.stringify(toCache));
+        return updated;
+      });
     } catch (err) {
       console.error(`Fetch error for page ${pageNum}:`, err);
     } finally {
@@ -109,10 +108,10 @@ function MostPopularSection() {
     <main className={`${styles.main} wrapper`}>
       <h1>Most Popular Games</h1>
 
-      <div className={styles.gameGrid}>
+      <div className={styles.gameGrid} key={currentPage}>
         {devShowSkeletonOnly
           ? Array.from({ length: GAMES_PER_PAGE }).map((_, i) => <SkeletonCard key={`skeleton-${i}`} />)
-          : loading && !gamesForPage.length
+          : loading
           ? Array.from({ length: GAMES_PER_PAGE }).map((_, i) => <SkeletonCard key={`loading-${i}`} />)
           : gamesForPage.map((game, i) => (
               <VerticalCard
@@ -134,7 +133,6 @@ function MostPopularSection() {
             ))}
       </div>
 
-      {/* Numbered page buttons like SearchResults */}
       <div className={styles.numOfSearchPages}>
         {Array.from({ length: MAX_PAGES }, (_, i) => {
           const pg = i + 1;
