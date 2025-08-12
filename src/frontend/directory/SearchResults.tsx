@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import styles from '../css/directory-css/SearchResults.module.scss';
+import { Link } from 'react-router';
 import { fetchDealsByParams } from '../../backend/utils/cheapshark';
 import SkeletonCard from '../component-builder/SkeletonCard';
 import VerticalCard from '../component-builder/VerticalCard';
@@ -96,7 +97,7 @@ function SearchResults() {
 
   return (
     <main className={`${styles.main} wrapper`}>
-      <h1 className={styles['no-results']}>
+      <h1 className={styles['no-results']}><Link to="/" aria-label="Go back to home page" className={styles.homeLink}><i className="fa-solid fa-chevron-left" aria-hidden="true"></i></Link>
         {query ? `Search Results for "${query}"` : 'No search query provided'}
       </h1>
 
@@ -125,6 +126,8 @@ function SearchResults() {
             ))}
       </div>
 
+      <hr className={styles.hr}/>
+
       <div className={styles.numOfSearchPages}>
         {Array.from({ length: totalPages }, (_, i) => {
           const page = i + 1;
@@ -139,6 +142,8 @@ function SearchResults() {
           );
         })}
       </div>
+
+      <hr className={styles.hr}/>
 
       {modalOpen && (
         <RedirectModal

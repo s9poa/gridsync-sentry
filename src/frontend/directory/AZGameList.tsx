@@ -4,6 +4,7 @@ import RedirectModal from '../component-builder/RedirectModal';
 import SkeletonCard from '../component-builder/SkeletonCard';
 import VerticalCard from '../component-builder/VerticalCard';
 import { fetchDealsByParams, fetchStoreLogos, type GameDeal } from '../../backend/utils/cheapshark';
+import { Link } from 'react-router';
 
 const devShowSkeletonOnly = false;
 const GAMES_PER_PAGE = 20;
@@ -108,7 +109,7 @@ function AZGameList() {
 
   return (
     <main className={`${styles.main} wrapper`}>
-      <h1>A-Z Game List</h1>
+      <h1><Link to="/" aria-label="Go back to home page" className={styles.homeLink}><i className="fa-solid fa-chevron-left" aria-hidden="true"></i></Link>A-Z Game List</h1>
 
       <div className={styles.gameGrid} key={currentPage}>
         {devShowSkeletonOnly
@@ -135,6 +136,8 @@ function AZGameList() {
             ))}
       </div>
 
+      <hr className={styles.hr}/>
+
       <div className={styles.numOfSearchPages}>
         {Array.from({ length: MAX_PAGES }, (_, i) => {
           const page = i + 1;
@@ -145,6 +148,8 @@ function AZGameList() {
           );
         })}
       </div>
+
+      <hr className={styles.hr}/>
 
       {modalData && (
         <RedirectModal
