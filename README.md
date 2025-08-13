@@ -2,7 +2,7 @@
 A functional game deals tracking platform with categorized listings, price comparisons, and real-time data from a third-party API.
 
 ## 🌐 Live Site  
-[Visit GridSync Sentry](https://your-live-link.com) <!-- Replace with your live site link -->
+[https://gridsync-sentry.vercel.app/](https://your-live-link.com](https://gridsync-sentry.vercel.app/))
 
 ## 🎯 Purpose  
 GridSync Sentry was built to help gamers quickly find the best deals on video games across multiple online stores.  
@@ -16,11 +16,12 @@ It organizes deals into curated categories, compares sale and retail prices, and
 • Skeleton loaders for smooth content loading  
 
 ## 🛠 Tech Stack  
-- **React + TypeScript** – Component-based front-end development  
-- **SCSS Modules** – Scoped, maintainable styling  
-- **CheapShark API** – Real-time game deal data  
+- **React + TypeScript**
+- **SCSS Modules**
+- **CheapShark API**
 
 ## 📌 Possible Enhancements  
 - Add user accounts for personalized deal tracking  
 - Implement favorites/wishlist functionality  
 - Enable price alerts for certain games
+
