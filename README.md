@@ -2,7 +2,7 @@
 A functional game deals tracking platform with categorized listings, price comparisons, and real-time data from a third-party API.
 
 ## 🌐 Live Site  
-[https://gridsync-sentry.vercel.app/](https://your-live-link.com](https://gridsync-sentry.vercel.app/))
+[https://gridsync-sentry.vercel.app/](https://gridsync-sentry.vercel.app/)
 
 ## 🎯 Purpose  
 GridSync Sentry was built to help gamers quickly find the best deals on video games across multiple online stores.  
@@ -24,4 +24,5 @@ It organizes deals into curated categories, compares sale and retail prices, and
 - Add user accounts for personalized deal tracking  
 - Implement favorites/wishlist functionality  
 - Enable price alerts for certain games
+
 
