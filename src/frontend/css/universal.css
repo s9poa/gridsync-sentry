@@ -14,6 +14,8 @@
     --dk-transparent-surface: hsla(270, 10%, 12%, .75);
     --lt-transparent-surface: hsla(245, 16%, 20%, .75);
 
+    --primary-purple: #7059f3;
+
     --dk-transparent-surface-hover: hsla(270, 10%, 16%, .75);
     --lt-transparent-surface-hover: hsla(245, 16%, 24%, .75);
 
@@ -103,6 +105,7 @@ input {
     max-width: 1100px;
     width: 100%;
     margin: 0 auto;
+    position: relative;
 }
 .section-margin{
     margin: 3rem 0;

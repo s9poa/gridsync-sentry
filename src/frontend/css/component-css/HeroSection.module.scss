@@ -1,0 +1,74 @@
+.hero {
+    background: var(--dk-surface);
+    position: relative;
+    overflow: hidden;
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 1rem;
+    z-index: 2;
+    position: relative;
+    text-align: center;
+  }
+  .title {
+    padding: 0;
+    font-size: 2rem;
+    text-transform: uppercase;
+    font-weight: 900;
+    text-wrap: pretty;
+  }
+  .subtitle {
+    opacity: .5;
+    text-wrap: pretty;
+    text-wrap: balance;
+    margin-block: 1rem 1.3rem;
+  }
+  .cta {
+    background: var(--primary-purple);
+    padding: .75rem 2rem;
+    border-radius: 100vw;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: 600;
+    gap: .25rem;
+  }
+}
+
+.outerBubble {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  inset: 0;
+  background: var(--primary-purple);
+  filter: blur(25px);
+  opacity: .25;
+  z-index: 1;
+  border-radius: 100vw 100vw 0 0;
+  transform: translateY(100%);
+  animation: expand 5s linear forwards;
+  user-select: none;
+  pointer-events: none;
+}
+
+@keyframes expand {
+  0% {
+    transform: translateY(100%);
+    filter: blur(25px);
+  }
+  100% {
+    transform: translateY(50%);
+    filter: blur(90px);
+  }
+}
+@media (max-width: 480px) {
+    .hero .content {
+      text-align: center;
+    }
+    .hero .title {
+    font-size: 1.5rem;
+  }
+}

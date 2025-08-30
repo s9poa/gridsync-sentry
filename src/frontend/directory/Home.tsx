@@ -4,6 +4,8 @@ import styles from '../css/directory-css/Home.module.scss';
 import CategorySection from '../component-builder/CategorySection';
 import RedirectModal from '../component-builder/RedirectModal';
 
+import HeroSection from '../component-builder/HeroSection';
+
 function Home() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState({
@@ -22,8 +24,9 @@ function Home() {
   };
 
   return (
-    <main className={`${styles.main} wrapper`}>
-      <div className={styles.categoryGrid}>
+    <main className={styles.main}>
+      <HeroSection />
+      <div className={`${styles.categoryGrid} wrapper`}>
         <CategorySection leadingTitle="Most Popular Games" fetchOptions={{ sortBy: 'Deal Rating' }} onRedirect={openRedirectModal} viewMoreSrc="/most-popular-games" />
         <CategorySection leadingTitle="Biggest Discounts Right Now" fetchOptions={{ sortBy: 'Savings' }} onRedirect={openRedirectModal} viewMoreSrc="/biggest-discounts-right-now" />
         <CategorySection leadingTitle="Just Dropped Deals" fetchOptions={{ sortBy: 'Recent' }} onRedirect={openRedirectModal} viewMoreSrc="/just-dropped-deals" />
