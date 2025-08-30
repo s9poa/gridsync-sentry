@@ -8,7 +8,7 @@ import { Link } from 'react-router';
 
 const devShowSkeletonOnly = false;
 const GAMES_PER_PAGE = 20;
-const MAX_PAGES = 10;
+const PAGE_WINDOW_SIZE = 10;
 const CACHE_KEY = 'biggestDiscountsCache';
 const CACHE_EXPIRATION_MINUTES = 10;
 
@@ -22,6 +22,7 @@ function BiggestDiscountsRightNow() {
   const [storeLogos, setStoreLogos] = useState<Record<string, { logo: string; name: string }>>({});
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageWindowStart, setPageWindowStart] = useState(1);
   const [modalData, setModalData] = useState<{ title: string; store: string; link: string } | null>(null);
 
   const isCacheExpired = (timestamp: number) => {
@@ -44,6 +45,7 @@ function BiggestDiscountsRightNow() {
         if (parsed && parsed.pages && !isCacheExpired(parsed.timestamp) && parsed.pages[1]?.length) {
           setPagesData(parsed.pages);
           setCurrentPage(1);
+          setPageWindowStart(1);
           return;
         }
       } catch {}
@@ -51,6 +53,7 @@ function BiggestDiscountsRightNow() {
 
     (async () => {
       setCurrentPage(1);
+      setPageWindowStart(1);
       setLoading(true);
       setPagesData((prev) => ({ ...prev, 1: [] }));
       try {
@@ -78,7 +81,12 @@ function BiggestDiscountsRightNow() {
   };
 
   const goToPage = async (pageNum: number) => {
-    if (pageNum < 1 || pageNum > MAX_PAGES) return;
+    if (pageNum < 1) return;
+
+    const isLastInWindow = pageNum === pageWindowStart + PAGE_WINDOW_SIZE - 1;
+    if (isLastInWindow) {
+      setPageWindowStart(pageNum);
+    }
 
     if (pagesData[pageNum]?.length) {
       setCurrentPage(pageNum);
@@ -139,8 +147,8 @@ function BiggestDiscountsRightNow() {
       <hr className={styles.hr}/>
 
       <div className={styles.numOfSearchPages}>
-        {Array.from({ length: MAX_PAGES }, (_, i) => {
-          const page = i + 1;
+        {Array.from({ length: PAGE_WINDOW_SIZE }, (_, i) => {
+          const page = pageWindowStart + i;
           return (
             <button key={page} className={currentPage === page ? styles.active : ''} onClick={() => goToPage(page)}>
               {page}

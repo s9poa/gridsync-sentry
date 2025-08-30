@@ -28,10 +28,6 @@
             font-family: inherit;
             color: goldenrod;
         }
-
-        &:hover, &:active, &:focus-visible {
-            background: var(--dk-transparent-surface);
-        }
     }
 
     .primaryNav {
@@ -61,6 +57,7 @@
         align-items: center;
         max-width: 20rem;
         width: 100%;
+        padding: 0 1rem;
 
         label {
             height: 0px;
@@ -121,6 +118,7 @@
     }
     .searchForm {
         max-width: none !important;
+        padding: 0 .25rem !important;
     }
 }
 @media (max-width: 720px) {
