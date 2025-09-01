@@ -1,28 +1,23 @@
-# GridSync Sentry  
-A functional game deals tracking platform with categorized listings, price comparisons, and real-time data from a third-party API.
+## What is GridSync Sentry
+GridSync Sentry is a web application that tracks real-time video game deals from digital storefronts. Built with **TypeScript**, **SCSS**, and the **CheapShark API**, it emphasizes a clean, responsive interface designed for fast browsing and distraction-free deal discovery.
 
-## 🌐 Live Site  
-[https://gridsync-sentry.vercel.app/](https://gridsync-sentry.vercel.app/)
+## Built With
+- TypeScript  
+- SCSS  
+- CheapShark REST API  
 
-## 🎯 Purpose  
-GridSync Sentry was built to help gamers quickly find the best deals on video games across multiple online stores.  
-It organizes deals into curated categories, compares sale and retail prices, and links directly to the store offering the discount.  
+## Purpose
+The goal of GridSync Sentry was to create a practical tool for exploring live game deals while sharpening my front-end and API integration skills. I wanted the experience to feel streamlined and simple, with curated categories and smooth navigation that make finding relevant deals effortless.
 
-## ✨ Highlights  
-• Live game deals fetched from an external API  
-• Multiple curated categories with unique sorting  
-• Responsive card-based layout for desktop and mobile  
-• Redirect modal for safe external navigation  
-• Skeleton loaders for smooth content loading  
+## What I Learned
+This project gave me hands-on experience working with **REST APIs**, managing cached data for performance, and building custom UI components from scratch with **SCSS**. It also strengthened my understanding of creating accessible, responsive designs and handling real-world challenges like pagination, rate limits, and session storage.
 
-## 🛠 Tech Stack  
-- **React + TypeScript**
-- **SCSS Modules**
-- **CheapShark API**
+## Key Features
+- Integrates the CheapShark REST API to display live video game pricing  
+- Features pagination, session caching, and dynamic redirect modals  
+- Curates categories with custom sorting and price-based logic  
+- Designed with custom SCSS components for a consistent UI system  
+- Optimized for usability and performance without prebuilt UI kits  
 
-## 📌 Possible Enhancements  
-- Add user accounts for personalized deal tracking  
-- Implement favorites/wishlist functionality  
-- Enable price alerts for certain games
-
-
+## View Project
+👉 [GridSync Sentry](https://gridsync-sentry.vercel.app/)
